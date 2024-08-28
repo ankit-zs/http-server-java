@@ -24,20 +24,25 @@ public class Main {
 
         String request = bufferedReader.readLine(); // used to read the entire line from the input stream at once.
 
-        String[] splitEntireRequestWithCRLF = request.split("\r\n");
-        String requestLine = splitEntireRequestWithCRLF[0];
-        String[] splitRequestLineWithSpace = requestLine.split(" ");
+        String[] splitEntireRequestWithCRLF = request.split(" ");
+        String requestTarget = splitEntireRequestWithCRLF[1];
 
-        String requestTarget = splitRequestLineWithSpace[1];
+//        if(requestTarget.equals("/")){
+//            System.out.println("response is: " + "HTTP/1.1 200 OK\r\n\r\n");
+//            outputStream.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+//        }
+//        else{
+//            System.out.println("response is: " + "HTTP/1.1 404 Not Found\r\n\r\n");
+//            outputStream.write("HTTP/1.1 404 Not Found\r\n\r\n".getBytes());
+//        } // Extract Url Path code
 
-        if(requestTarget.equals("/")){
-            System.out.println("response is: " + "HTTP/1.1 200 OK\r\n\r\n");
-            outputStream.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
-        }
-        else{
-            System.out.println("response is: " + "HTTP/1.1 404 Not Found\r\n\r\n");
-            outputStream.write("HTTP/1.1 404 Not Found\r\n\r\n".getBytes());
-        }
+        String[] requestTargetParts = requestTarget.split("/");
+        String urlParam = requestTargetParts[requestTargetParts.length - 1];
+
+        outputStream.write(("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + urlParam.length() + "\r\n\r\n" + urlParam).getBytes());
+        System.out.println("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: " + urlParam.length() + "\r\n\r\n" + urlParam    );
+
+
 
         // where \r\n is CRLF i.e. carriage return(\r) line feed(\n)
         // where \r means the cursor moves to the starting of the current line
